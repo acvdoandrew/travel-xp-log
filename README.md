@@ -9,6 +9,7 @@ Coming Soon!
 ## Technologies Used
 - HTML
 - CSS
+- Sass
 - JavaScript
 - Express
 - MongoDB/Mongoose
