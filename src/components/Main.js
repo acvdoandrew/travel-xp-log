@@ -19,6 +19,21 @@ function Main(props) {
     }
   };
 
+  const createTravel = async (travel) => {
+    try {
+      await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'Application/json',
+        },
+        body: JSON.stringify(travel),
+      });
+      getData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -26,7 +41,10 @@ function Main(props) {
   return (
     <main>
       <Routes>
-        <Route path="/" element={<Index travel={travel} />} />
+        <Route
+          path="/"
+          element={<Index travel={travel} createTravel={createTravel} />}
+        />
         <Route path="/travel/:id" element={<Show />} />
       </Routes>
     </main>
