@@ -45,6 +45,21 @@ function Main(props) {
     }
   };
 
+  const updateTravel = async (updatedTrip, id) => {
+    try {
+      await fetch(API_URL + id, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'Application/json',
+        },
+        body: JSON.stringify(updatedTrip),
+      });
+      getData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -58,7 +73,13 @@ function Main(props) {
         />
         <Route
           path="/travel/:id"
-          element={<Show travel={travel} deleteTravel={deleteTravel} />}
+          element={
+            <Show
+              travel={travel}
+              deleteTravel={deleteTravel}
+              updateTravel={updateTravel}
+            />
+          }
         />
       </Routes>
     </main>
