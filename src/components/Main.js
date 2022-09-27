@@ -45,7 +45,7 @@ function Main(props) {
           path="/"
           element={<Index travel={travel} createTravel={createTravel} />}
         />
-        <Route path="/travel/:id" element={<Show />} />
+        <Route path="/travel/:id" element={<Show travel={travel} />} />
       </Routes>
     </main>
   );
