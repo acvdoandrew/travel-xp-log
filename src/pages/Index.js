@@ -79,7 +79,7 @@ function Index({ travel, createTravel }) {
           </label>
           <br />
           <label>
-            Description:
+            XP.Log:
             <input
               type="text"
               name="description"

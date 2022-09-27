@@ -47,7 +47,7 @@ function Show({ travel, deleteTravel, updateTravel }) {
           <img src={trip.image} alt={trip.location} />
         </div>
         <h3>Location: {trip.location} </h3>
-        <h3>Description: {trip.description}</h3>
+        <h3>XP.Log: {trip.description}</h3>
         <h3>Cost: {trip.cost}</h3>
         <h3>Places to visit: {trip.visit}</h3>
         <button onClick={handleEdit}>{isEditing ? 'Cancel' : 'Edit'}</button>
@@ -78,7 +78,7 @@ function Show({ travel, deleteTravel, updateTravel }) {
           </label>
           <br />
           <label>
-            Description:
+            XP.Log:
             <input
               type="text"
               name="description"
