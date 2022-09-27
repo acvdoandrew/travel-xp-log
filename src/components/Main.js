@@ -34,6 +34,17 @@ function Main(props) {
     }
   };
 
+  const deleteTravel = async (id) => {
+    try {
+      await fetch(API_URL + id, {
+        method: 'DELETE',
+      });
+      getData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -45,7 +56,10 @@ function Main(props) {
           path="/"
           element={<Index travel={travel} createTravel={createTravel} />}
         />
-        <Route path="/travel/:id" element={<Show travel={travel} />} />
+        <Route
+          path="/travel/:id"
+          element={<Show travel={travel} deleteTravel={deleteTravel} />}
+        />
       </Routes>
     </main>
   );
