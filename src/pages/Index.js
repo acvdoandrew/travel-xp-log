@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -31,9 +30,11 @@ function Index({ travel, createTravel }) {
         {sortedList.map((t) => (
           <div className="travel" key={t._id}>
             <h3>{t.location}</h3>
-            <div className="img-wrapper">
-              <img src={t.image} alt={t.location} />
-            </div>
+            <Link to={`/travel/${t._id}`}>
+              <div className="img-wrapper">
+                <img src={t.image} alt={t.location} />
+              </div>
+            </Link>
             <h4>{t.cost}</h4>
           </div>
         ))}
