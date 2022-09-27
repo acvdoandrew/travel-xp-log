@@ -22,6 +22,7 @@ module.exports = {
   plugins: ['jsx-a11y', 'react-hooks', 'prettier'],
   root: true, // For configuration cascading.
   rules: {
+    'react/prop-types': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'prettier/prettier': 'error',
