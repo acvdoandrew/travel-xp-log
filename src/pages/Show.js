@@ -12,6 +12,17 @@ function Show({ travel, deleteTravel, updateTravel }) {
     visit: '',
   });
 
+  const [likes, setLikes] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
+  const handleClick = () => {
+    if (isClicked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
+    }
+    setIsClicked(!isClicked);
+  };
+
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSubmit = (e) => {
@@ -52,6 +63,12 @@ function Show({ travel, deleteTravel, updateTravel }) {
         <h3>Places to visit: {trip.visit}</h3>
         <button onClick={handleEdit}>{isEditing ? 'Cancel' : 'Edit'}</button>
         <button onClick={handleDelete}>Delete</button>
+        <button
+          className={`like-button ${isClicked && 'liked'}`}
+          onClick={handleClick}
+        >
+          <span className="likes-counter">{`Like | ${likes}`}</span>
+        </button>
       </section>
     );
   };
