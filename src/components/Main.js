@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { UserAuth } from '../context/AuthContext';
 import Index from '../pages/Index';
 import Show from '../pages/Show';
 // eslint-disable-next-line no-unused-vars
 function Main(props) {
+  const { user } = UserAuth();
+
   const [travel, setTravel] = useState(null);
 
   const API_URL = 'http://localhost:4000/api/travel/';
@@ -21,6 +24,8 @@ function Main(props) {
 
   const createTravel = async (travel) => {
     try {
+      travel.userName = user.displayName;
+      travel.userId = user.uid;
       await fetch(API_URL, {
         method: 'POST',
         headers: {

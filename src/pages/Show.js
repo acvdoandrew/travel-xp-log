@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { UserAuth } from '../context/AuthContext';
 function Show({ travel, deleteTravel, updateTravel }) {
   const { id } = useParams();
   const trip = travel ? travel.find((t) => t._id === id) : null;
@@ -11,6 +12,8 @@ function Show({ travel, deleteTravel, updateTravel }) {
     cost: '',
     visit: '',
   });
+
+  const { user } = UserAuth();
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -42,7 +45,11 @@ function Show({ travel, deleteTravel, updateTravel }) {
     };
 
     return (
-      <section>
+      <section className="trip-card">
+        <p>
+          <strong>XP.Log by:</strong>
+          {trip.userName}
+        </p>
         <div className="show-img-container">
           <img src={trip.image} alt={trip.location} />
         </div>
@@ -50,8 +57,14 @@ function Show({ travel, deleteTravel, updateTravel }) {
         <h3>XP.Log: {trip.description}</h3>
         <h3>Cost: {trip.cost}</h3>
         <h3>Places to visit: {trip.visit}</h3>
-        <button onClick={handleEdit}>{isEditing ? 'Cancel' : 'Edit'}</button>
-        <button onClick={handleDelete}>Delete</button>
+        {user && user.uid === trip.userId && (
+          <>
+            <button onClick={handleEdit}>
+              {isEditing ? 'Cancel' : 'Edit'}
+            </button>
+            <button onClick={handleDelete}>Delete</button>
+          </>
+        )}
       </section>
     );
   };
