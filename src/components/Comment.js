@@ -2,12 +2,22 @@
 //import { useState, useEffect } from 'react';
 // import { Routes, Route } from 'react-router-dom';
 
-function Comment(comment) {
+function Comment({ comment, createComment }) {
   return (
     <section>
-      <h5>Comment</h5>
+      <h5>Comments</h5>
+      {comment &&
+        comment.map((c) => (
+          <div key={c._id}>
+            <p>{c.comment}</p>
+          </div>
+        ))}
       <form>
-        <input type="text" />
+        <label>
+          Comment Here:
+          <input type="text" />
+          <input type="submit" value="Add Comment" />
+        </label>
       </form>
     </section>
   );

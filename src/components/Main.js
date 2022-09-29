@@ -11,7 +11,7 @@ function Main(props) {
   const [comment, setComment] = useState(null);
 
   const API_URL = 'http://localhost:4000/api/travel/';
-  const API_URL2 = 'http://localhost:4000/api/travel/comment';
+  const API_URL2 = 'http://localhost:4000/api/comments/';
 
   const getData = async () => {
     try {
@@ -69,13 +69,15 @@ function Main(props) {
       const response = await fetch(API_URL2);
       const data = await response.json();
       setComment(data);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const createComment = async (comment) => {
+  const createComment = async (comment, postId) => {
     try {
+      comment.postId = postId;
       await fetch(API_URL2, {
         method: 'POST',
         headers: {
@@ -91,7 +93,7 @@ function Main(props) {
 
   useEffect(() => {
     getData();
-    getCommentData;
+    getCommentData();
   }, []);
 
   return (
@@ -110,7 +112,7 @@ function Main(props) {
                 deleteTravel={deleteTravel}
                 updateTravel={updateTravel}
               />
-              <Comment comment={comment} submit={createComment} />
+              <Comment comment={comment} createComment={createComment} />
             </>
           }
         />
