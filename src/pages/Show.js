@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-function Show({ travel, deleteTravel, updateTravel }) {
+import { UserAuth } from '../context/AuthContext';
+import Comment from '../components/Comment';
+
+function Show({
+  travel,
+  deleteTravel,
+  updateTravel,
+  createComment,
+  comments,
+  getCommentData,
+}) {
   const { id } = useParams();
   const trip = travel ? travel.find((t) => t._id === id) : null;
   const navigate = useNavigate();
@@ -11,6 +21,19 @@ function Show({ travel, deleteTravel, updateTravel }) {
     cost: '',
     visit: '',
   });
+
+  const [likes, setLikes] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
+  const handleClick = () => {
+    if (isClicked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
+    }
+    setIsClicked(!isClicked);
+  };
+
+  const { user } = UserAuth();
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -42,7 +65,11 @@ function Show({ travel, deleteTravel, updateTravel }) {
     };
 
     return (
-      <section>
+      <section className="trip-card">
+        <p>
+          <strong>XP.Log by:</strong>
+          {trip.userName}
+        </p>
         <div className="show-img-container">
           <img src={trip.image} alt={trip.location} />
         </div>
@@ -50,8 +77,22 @@ function Show({ travel, deleteTravel, updateTravel }) {
         <h3>XP.Log: {trip.description}</h3>
         <h3>Cost: {trip.cost}</h3>
         <h3>Places to visit: {trip.visit}</h3>
-        <button onClick={handleEdit}>{isEditing ? 'Cancel' : 'Edit'}</button>
-        <button onClick={handleDelete}>Delete</button>
+
+        <button
+          className={`like-button ${isClicked && 'liked'}`}
+          onClick={handleClick}
+        >
+          <span className="likes-counter">{`Like | ${likes}`}</span>
+        </button>
+
+        {user && user.uid === trip.userId && (
+          <>
+            <button onClick={handleEdit}>
+              {isEditing ? 'Cancel' : 'Edit'}
+            </button>
+            <button onClick={handleDelete}>Delete</button>
+          </>
+        )}
       </section>
     );
   };
@@ -60,7 +101,8 @@ function Show({ travel, deleteTravel, updateTravel }) {
     if (trip) {
       setEditForm(trip);
     }
-  }, [trip]);
+    getCommentData(id);
+  }, [trip, id]);
 
   return (
     <section>
@@ -121,6 +163,7 @@ function Show({ travel, deleteTravel, updateTravel }) {
           <input type="submit" value="Update Experience" />
         </form>
       )}
+      <Comment comments={comments} createComment={createComment} postId={id} />
     </section>
   );
 }

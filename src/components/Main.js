@@ -1,14 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { UserAuth } from '../context/AuthContext';
 import Index from '../pages/Index';
 import Show from '../pages/Show';
-import Comment from './Comment';
 
 // eslint-disable-next-line no-unused-vars
 function Main(props) {
+  const { user } = UserAuth();
+
   const [travel, setTravel] = useState(null);
-  const [comment, setComment] = useState(null);
+  const [comments, setComments] = useState(null);
 
   const API_URL = 'http://localhost:4000/api/travel/';
   const API_URL2 = 'http://localhost:4000/api/comments/';
@@ -25,6 +27,8 @@ function Main(props) {
 
   const createTravel = async (travel) => {
     try {
+      travel.userName = user.displayName;
+      travel.userId = user.uid;
       await fetch(API_URL, {
         method: 'POST',
         headers: {
@@ -64,12 +68,11 @@ function Main(props) {
     }
   };
 
-  const getCommentData = async () => {
+  const getCommentData = async (postId) => {
     try {
-      const response = await fetch(API_URL2);
+      const response = await fetch(API_URL2 + postId);
       const data = await response.json();
-      setComment(data);
-      console.log(data);
+      setComments(data);
     } catch (error) {
       console.log(error);
     }
@@ -77,6 +80,8 @@ function Main(props) {
 
   const createComment = async (comment, postId) => {
     try {
+      comment.userName = user.displayName;
+      comment.userId = user.uid;
       comment.postId = postId;
       await fetch(API_URL2, {
         method: 'POST',
@@ -85,7 +90,7 @@ function Main(props) {
         },
         body: JSON.stringify(comment),
       });
-      getCommentData();
+      getCommentData(postId);
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +98,6 @@ function Main(props) {
 
   useEffect(() => {
     getData();
-    getCommentData();
   }, []);
 
   return (
@@ -106,14 +110,14 @@ function Main(props) {
         <Route
           path="/travel/:id"
           element={
-            <>
-              <Show
-                travel={travel}
-                deleteTravel={deleteTravel}
-                updateTravel={updateTravel}
-              />
-              <Comment comment={comment} createComment={createComment} />
-            </>
+            <Show
+              travel={travel}
+              deleteTravel={deleteTravel}
+              updateTravel={updateTravel}
+              comments={comments}
+              createComment={createComment}
+              getCommentData={getCommentData}
+            />
           }
         />
       </Routes>
