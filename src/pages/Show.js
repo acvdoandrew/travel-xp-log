@@ -13,6 +13,18 @@ function Show({ travel, deleteTravel, updateTravel }) {
     visit: '',
   });
 
+
+  const [likes, setLikes] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
+  const handleClick = () => {
+    if (isClicked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
+    }
+    setIsClicked(!isClicked);
+  };
+
   const { user } = UserAuth();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -57,6 +69,14 @@ function Show({ travel, deleteTravel, updateTravel }) {
         <h3>XP.Log: {trip.description}</h3>
         <h3>Cost: {trip.cost}</h3>
         <h3>Places to visit: {trip.visit}</h3>
+
+        <button
+          className={`like-button ${isClicked && 'liked'}`}
+          onClick={handleClick}
+        >
+          <span className="likes-counter">{`Like | ${likes}`}</span>
+        </button>
+
         {user && user.uid === trip.userId && (
           <>
             <button onClick={handleEdit}>
@@ -65,6 +85,7 @@ function Show({ travel, deleteTravel, updateTravel }) {
             <button onClick={handleDelete}>Delete</button>
           </>
         )}
+
       </section>
     );
   };
