@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
-function Show({ travel, deleteTravel, updateTravel }) {
+import Comment from '../components/Comment';
+
+function Show({
+  travel,
+  deleteTravel,
+  updateTravel,
+  createComment,
+  comments,
+  getCommentData,
+}) {
   const { id } = useParams();
   const trip = travel ? travel.find((t) => t._id === id) : null;
   const navigate = useNavigate();
@@ -92,7 +101,8 @@ function Show({ travel, deleteTravel, updateTravel }) {
     if (trip) {
       setEditForm(trip);
     }
-  }, [trip]);
+    getCommentData(id);
+  }, [trip, id]);
 
   return (
     <section>
@@ -153,6 +163,7 @@ function Show({ travel, deleteTravel, updateTravel }) {
           <input type="submit" value="Update Experience" />
         </form>
       )}
+      <Comment comments={comments} createComment={createComment} postId={id} />
     </section>
   );
 }
