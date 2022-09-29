@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { UserAuth } from '../context/AuthContext';
 
 function Index({ travel, createTravel }) {
+  const { user } = UserAuth();
+
   const [newForm, setNewForm] = useState({
     location: '',
     description: '',
@@ -23,12 +26,18 @@ function Index({ travel, createTravel }) {
     );
 
     return (
-      <section>
-        <button onClick={handleCreate}>
-          {isCreating ? 'Cancel' : 'Add New Travel'}
-        </button>
+      <section className="xp-feed">
+        {user && (
+          <button onClick={handleCreate}>
+            {isCreating ? 'Cancel' : 'Add New Travel'}
+          </button>
+        )}
         {sortedList.map((t) => (
           <div className="travel" key={t._id}>
+            <p>
+              <strong>Added By:</strong>
+              {t.userName}
+            </p>
             <h3>{t.location}</h3>
             <Link to={`/travel/${t._id}`}>
               <div className="img-wrapper">
@@ -62,6 +71,7 @@ function Index({ travel, createTravel }) {
       cost: '',
       visit: '',
     });
+    setIsCreating(false);
   };
 
   return (
