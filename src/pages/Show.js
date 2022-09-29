@@ -13,7 +13,6 @@ function Show({ travel, deleteTravel, updateTravel }) {
     visit: '',
   });
 
-
   const [likes, setLikes] = useState(0);
   const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => {
@@ -85,7 +84,6 @@ function Show({ travel, deleteTravel, updateTravel }) {
             <button onClick={handleDelete}>Delete</button>
           </>
         )}
-
       </section>
     );
   };
