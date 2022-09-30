@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
 import Comment from '../components/Comment';
@@ -30,6 +30,8 @@ function Show({
   const { user } = UserAuth();
 
   const [isEditing, setIsEditing] = useState(false);
+
+  const getCommentDataRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,10 +91,14 @@ function Show({
   };
 
   useEffect(() => {
+    getCommentDataRef.current = getCommentData;
+  });
+
+  useEffect(() => {
     if (trip) {
       setEditForm(trip);
     }
-    getCommentData(id);
+    getCommentDataRef.current(id);
   }, [trip, id]);
 
   return (
