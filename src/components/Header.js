@@ -24,16 +24,18 @@ function Header(props) {
   return (
     <nav className="nav">
       <Link to="/">
-        <div>Logo</div>
+        <div className="logo-wrapper">
+          <img src="TravelXPLog.jpg" alt="travel exp.log" />
+        </div>
       </Link>
       {user ? (
         <>
-          <div>Welcome, {user.displayName}</div>
+          <div className="greeting-user">Welcome, {user.displayName}</div>
           <button onClick={handleSignOut}>LogOut</button>
         </>
       ) : (
         <div className="google-btn-container">
-          <GoogleButton onClick={handleGoogleSignIn} />
+          <GoogleButton type="light" onClick={handleGoogleSignIn} />
         </div>
       )}
     </nav>

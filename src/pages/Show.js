@@ -23,14 +23,8 @@ function Show({
   });
 
   const [likes, setLikes] = useState(0);
-  const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => {
-    if (isClicked) {
-      setLikes(likes - 1);
-    } else {
-      setLikes(likes + 1);
-    }
-    setIsClicked(!isClicked);
+    setLikes(likes + 1);
   };
 
   const { user } = UserAuth();
@@ -67,7 +61,7 @@ function Show({
     return (
       <section className="trip-card">
         <p>
-          <strong>XP.Log by:</strong>
+          <strong>XP.Log by: </strong>
           {trip.userName}
         </p>
         <div className="show-img-container">
@@ -78,10 +72,7 @@ function Show({
         <h3>Cost: {trip.cost}</h3>
         <h3>Places to visit: {trip.visit}</h3>
 
-        <button
-          className={`like-button ${isClicked && 'liked'}`}
-          onClick={handleClick}
-        >
+        <button onClick={handleClick}>
           <span className="likes-counter">{`Like | ${likes}`}</span>
         </button>
 
@@ -105,65 +96,77 @@ function Show({
   }, [trip, id]);
 
   return (
-    <section>
+    <section className="main-show">
       {travel ? loaded() : loading()}
       {isEditing && (
-        <form onSubmit={handleSubmit}>
-          <label>
-            Location:
-            <input
-              type="text"
-              name="location"
-              value={editForm.location}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-          <label>
-            XP.Log:
-            <input
-              type="text"
-              name="description"
-              value={editForm.description}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-          <label>
-            Image:
-            <input
-              type="text"
-              name="image"
-              value={editForm.image}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-          <label>
-            Cost:
-            <input
-              type="text"
-              name="cost"
-              value={editForm.cost}
-              onChange={handleChange}
-              placeholder="$5000"
-            />
-          </label>
-          <br />
-          <label>
-            Visit:
-            <input
-              type="text"
-              name="visit"
-              value={editForm.visit}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-          <input type="submit" value="Update Experience" />
-        </form>
+        <div className="edit-form">
+          <form onSubmit={handleSubmit}>
+            <label>
+              Location:
+              <br />
+              <input
+                type="text"
+                name="location"
+                value={editForm.location}
+                onChange={handleChange}
+              />
+            </label>
+            <br />
+            <label>
+              XP.Log:
+              <br />
+              <input
+                type="text"
+                name="description"
+                value={editForm.description}
+                onChange={handleChange}
+              />
+            </label>
+            <br />
+            <label>
+              Image:
+              <br />
+              <input
+                type="text"
+                name="image"
+                value={editForm.image}
+                onChange={handleChange}
+              />
+            </label>
+            <br />
+            <label>
+              Cost:
+              <br />
+              <input
+                type="text"
+                name="cost"
+                value={editForm.cost}
+                onChange={handleChange}
+                placeholder="$5000"
+              />
+            </label>
+            <br />
+            <label>
+              Visit:
+              <br />
+              <input
+                type="text"
+                name="visit"
+                value={editForm.visit}
+                onChange={handleChange}
+              />
+            </label>
+            <br />
+            <input type="submit" value="Update Experience" />
+          </form>
+        </div>
       )}
-      <Comment comments={comments} createComment={createComment} postId={id} />
+      <Comment
+        comments={comments}
+        createComment={createComment}
+        postId={id}
+        user={user}
+      />
     </section>
   );
 }

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
 
-function Comment({ comments, createComment, postId }) {
+function Comment({ comments, createComment, postId, user }) {
   const [commentForm, setCommentForm] = useState({
     comment: '',
   });
@@ -20,27 +20,36 @@ function Comment({ comments, createComment, postId }) {
   };
 
   return (
-    <section>
-      <h5>Comments</h5>
+    <section className="comment-box">
+      <h3>Comments</h3>
       {comments &&
         comments.map((c) => (
           <div key={c._id}>
-            <p>{c.comment}</p>
+            <p>
+              {c.userName}: {c.comment}
+            </p>
           </div>
         ))}
 
-      <form>
-        <label>
-          Comment Here:
-          <input
-            type="text"
-            name="comment"
-            value={commentForm.comment}
-            onChange={handleChange}
-          />
-          <input type="submit" value="Add Comment" onClick={handleAddComment} />
-        </label>
-      </form>
+      {user && (
+        <form className="comment-form">
+          <label>
+            MAKE A COMMENT HERE:
+            <br />
+            <input
+              type="text"
+              name="comment"
+              value={commentForm.comment}
+              onChange={handleChange}
+            />
+            <input
+              type="submit"
+              value="Add Comment"
+              onClick={handleAddComment}
+            />
+          </label>
+        </form>
+      )}
     </section>
   );
 }
