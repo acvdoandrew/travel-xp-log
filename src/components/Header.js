@@ -1,8 +1,7 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import { GoogleButton } from 'react-google-button';
 import { UserAuth } from '../context/AuthContext';
+// eslint-disable-next-line no-unused-vars
 function Header(props) {
   const { googleSignIn, user, logOut } = UserAuth();
 

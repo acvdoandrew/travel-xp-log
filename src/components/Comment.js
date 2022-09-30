@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 
 function Comment({ comments, createComment, postId, user }) {

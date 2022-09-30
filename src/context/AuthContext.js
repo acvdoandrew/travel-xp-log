@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useContext, createContext, useEffect, useState } from 'react';
 import {
   GoogleAuthProvider,
