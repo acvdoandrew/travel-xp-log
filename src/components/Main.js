@@ -11,8 +11,8 @@ function Main(props) {
   const [travel, setTravel] = useState(null);
   const [comments, setComments] = useState(null);
 
-  const API_URL = 'https://travel-xp-log-api.herokuapp.com/api/travel/';
-  const API_URL2 = 'https://travel-xp-log-api.herokuapp.com/api/comments/';
+  const API_URL = 'https://travel-xp-log-api.up.railway.app/api/travel/';
+  const API_URL2 = 'https://travel-xp-log-api.up.railway.app/api/comments/';
 
   const getData = async () => {
     try {
